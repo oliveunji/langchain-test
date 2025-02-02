@@ -1,4 +1,5 @@
 import os
+import streamlit as st
 from langchain_openai import AzureChatOpenAI
 from langchain_core.messages import HumanMessage, AIMessage
 from langchain_core.prompts import ChatPromptTemplate, MessagesPlaceholder
@@ -21,20 +22,35 @@ prompt_template = ChatPromptTemplate.from_messages(
     ]
 )
 
-def chat_loop():
-    messages = []
-    print("대화를 시작합니다. 종료하려면 'quit'를 입력하세요.")
-    while True:
-        user_input = input("사용자: ")
-        if user_input.lower() == 'quit':
-            break
-        
-        messages.append(HumanMessage(content=user_input))
-        prompt = prompt_template.invoke({"messages": messages})
-        response = model.invoke(prompt)
-        ai_response = response.content
-        print("AI: " + ai_response)
-        messages.append(AIMessage(content=ai_response))
+# Streamlit 앱 시작
+st.title("AI 채팅 어시스턴트")
 
-if __name__ == "__main__":
-    chat_loop()
+# 세션 상태에 메시지 저장
+if "messages" not in st.session_state:
+    st.session_state.messages = []
+
+# 사용자 입력
+user_input = st.text_input("질문을 입력하세요:")
+
+if user_input:
+    # 사용자 메시지 추가
+    st.session_state.messages.append(HumanMessage(content=user_input))
+    
+    # AI 응답 생성
+    prompt = prompt_template.invoke({"messages": st.session_state.messages})
+    response = model.invoke(prompt)
+    
+    # AI 메시지 추가
+    st.session_state.messages.append(AIMessage(content=response.content))
+
+# 대화 내용 표시
+for message in st.session_state.messages:
+    if isinstance(message, HumanMessage):
+        st.text_area("사용자:", value=message.content, height=100, disabled=True)
+    elif isinstance(message, AIMessage):
+        st.text_area("AI:", value=message.content, height=100, disabled=True)
+
+# 대화 초기화 버튼
+if st.button("대화 초기화"):
+    st.session_state.messages = []
+    st.experimental_rerun()
