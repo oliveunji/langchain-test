@@ -19,7 +19,7 @@ RUN pip install --no-cache-dir -r requirements.txt
 
 COPY . .
 
-EXPOSE 8501
+EXPOSE 80
 
 # Streamlit 앱 실행 명령어로 변경
-CMD ["streamlit", "run", "job_interviewer.py", "--server.port=8501", "--server.address=0.0.0.0"]
+CMD ["streamlit", "run", "job_interviewer.py", "--server.port=80", "--server.address=0.0.0.0"]
