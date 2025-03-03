@@ -25,7 +25,4 @@ jobs:
         with:
           context: .
           push: true
-          tags: eunjikim2u/prep-pilot:latest
-          build-args: |
-            AZURE_OPENAI_API_KEY=${{ secrets.AZURE_OPENAI_API_KEY }}
-            AZURE_OPENAI_ENDPOINT=${{ secrets.AZURE_OPENAI_ENDPOINT }}
+          tags: eunjikim2u/prep-pilot:latest, eunjikim2u/prep-pilot:${{ github.sha }}
