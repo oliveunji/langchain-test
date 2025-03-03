@@ -7,6 +7,7 @@ from langchain_core.prompts import ChatPromptTemplate
 os.environ["AZURE_OPENAI_API_KEY"] = "YOUR_AZURE_OPENAI_API_KEY"
 os.environ["AZURE_OPENAI_ENDPOINT"] = "YOUR_AZURE_OPENAI_ENDPOINT"
 
+
 # AzureChatOpenAI 모델 초기화
 model = AzureChatOpenAI(
     openai_api_version="2024-08-01-preview",
@@ -39,6 +40,10 @@ feedback_prompt = ChatPromptTemplate.from_messages([
 ])
 
 st.title("면접관 AI 서비스")
+
+with st.expander("환경변수 확인"):
+    env_vars = dict(os.environ)
+    st.json(env_vars)
 
 # 사이드바 파일 업로드 섹션
 with st.sidebar:
