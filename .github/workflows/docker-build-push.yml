@@ -25,4 +25,4 @@ jobs:
         with:
           context: .
           push: true
-          tags: eunjikim2u/prep-pilot:latest, eunjikim2u/prep-pilot:${{ github.sha }}
+          tags: eunjikim2u/job-interviewer:latest, eunjikim2u/job-interviewer:${{ github.sha }}
